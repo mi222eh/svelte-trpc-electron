@@ -29,5 +29,11 @@
 		"typescript": "^5.0.0",
 		"vite": "^4.4.2"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"@trpc/client": "^10.37.1",
+		"@trpc/server": "^10.37.1",
+		"electron-trpc": "^0.5.2",
+		"zod": "^3.21.4"
+	}
 }
