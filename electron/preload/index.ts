@@ -6,4 +6,6 @@ contextBridge.exposeInMainWorld('electron', {
 })
 
 
+process.once('loaded', async () => {
   exposeElectronTRPC();
+});

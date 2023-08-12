@@ -1,6 +1,6 @@
 import { defineConfig, defineViteConfig } from 'electron-vite'
 import { resolve } from 'path'
-import viteConfig from './vite.config'
+import { svelte } from '@sveltejs/vite-plugin-svelte'
 
 export default defineConfig({
   main: {
@@ -9,10 +9,11 @@ export default defineConfig({
         input: {
           index: resolve(__dirname, 'electron/main/index.ts'),
         },
-        output:{
-            entryFileNames: '[name].cjs',
+        output: {
+          entryFileNames: '[name].cjs',
         }
-      }
+      },
+      outDir: 'dist/main'
     }
   },
   preload: {
@@ -21,11 +22,31 @@ export default defineConfig({
         input: {
           index: resolve(__dirname, 'electron/preload/index.ts')
         },
-        output:{
-            entryFileNames: '[name].cjs',
+        output: {
+          entryFileNames: '[name].cjs',
         }
-      }
+      },
+      outDir: 'dist/preload'
     }
   },
-  renderer: viteConfig
+  renderer: defineViteConfig({
+    root: resolve(__dirname),
+    build: {
+      rollupOptions: {
+        input: {
+          index: resolve(__dirname, 'index.html'),
+        },
+      },
+      outDir: 'dist/renderer'
+    },
+    server: {
+      port: 3000,
+    },
+    plugins: [svelte({
+      inspector: true,
+      compilerOptions: {
+        outputFilename: 'dist/renderer/build/bundle.js',
+      }
+    })],
+  })
 })
